@@ -6,8 +6,8 @@ const siteMetadata = {
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://oliviayma.github.io',
-  siteRepo: 'https://github.com/oliv-i-am19/oliviayma.github.io',
+  siteUrl: 'https://oliv-i-am19.github.io',
+  siteRepo: 'https://github.com/oliv-i-am19/oliv-i-am19.github.io',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   // mastodon: 'https://mastodon.social/@mastodonuser',
