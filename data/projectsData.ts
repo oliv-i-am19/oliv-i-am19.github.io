@@ -7,20 +7,40 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    title: 'Reliable Robotics GNC Intern Projects',
+    description: `My 2025 internship projects`,
+    imgSrc: '/static/images/airplane.jpg',
+    href: '/blog/reliable',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
+    title: 'A2Sys/Haptix Lab Pogo Drone',
+    description: `My research experience developing intentional collision controller for UAS-environment interaction`,
     imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    href: '/blog/pogo-drone',
+  },
+  {
+    title: 'Michigan Experimental Rocketry Org (MERO) VTVL Rocket',
+    description: ``,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/mero',
+  },
+  {
+    title: 'ROB 498 Multi-Robot Systems Final Project',
+    description: ``,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/mrs',
+  },
+  {
+    title: 'ROB 550 ArmLab Final Project',
+    description: ``,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/armlab',
+  },
+  {
+    title: 'ROB 330 SLAM & Navigation Final Project',
+    description: ``,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: '/blog/slam',
   },
 ]
 
