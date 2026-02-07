@@ -1,21 +1,83 @@
 ---
-title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+title: 'Targeted Aerial Collisions for Environmental Interaction'
+date: '2025-05-01'
+tags: ['Research', 'UAS', 'Controls', 'System Identification', 'C']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Developed control strategies for a "Pogo Drone" capable of physical environmental interaction, focusing on collision recovery and Sim2Real latency characterization.
 ---
 
 ## Project Overview
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+Conventional UAS are designed to avoid contact at all costs. Physical interaction—such as collecting treetop samples in the Amazon rainforest—destabilizes standard drones due to the abrupt coupling of the aircraft's dynamics with the environment.
 
-- Skill 1
-- Skill 2
+### The Solution
 
-## Gallery
+Inspired by Marc Raibert’s hopping robots, we developed an underactuated hexacopter equipped with a passive compliance leg. The goal was to engineer a controller capable of utilizing **intentional, targeted collisions** to maintain stability, effectively turning a crash into a controlled bounce.
 
-![Project Screenshot](/static/images/ocean.jpg)
+{/* YouTube Video Embed */}
+
+<div className="my-8 aspect-video w-full">
+  <iframe
+    className="h-full w-full rounded-lg shadow-lg"
+    src="https://youtu.be/OWXFGKdiCx8"
+    title="Pogo Drone Flight Tests"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+  <p className="mt-2 text-center text-sm text-gray-500 italic">
+    Demonstration of the switching controller handling collision and recovery.
+  </p>
+</div>
+
+---
+
+## Technical Contributions
+
+### 1. Hybrid Control Architecture
+
+I contributed to the development of a **hybrid switching controller** implemented in **C**. This architecture treats the flight profile as a finite state machine (Free Flight $\rightarrow$ Impact $\rightarrow$ Recovery $\rightarrow$ Stabilization).
+
+- **Velocity-Matching Control Law:** We designed a controller to align the drone's attitude with its Center of Mass (CoM) velocity vector immediately prior to impact. This mimics the physics of a pogo stick, converting translational kinetic energy into spring potential energy.
+- **Basin of Attraction Analysis:** I validated the "recoverable flight contour"—identifying the specific envelope of initial altitudes and horizontal velocities that allowed for a safe return to stable hover.
+
+### 2. Sim2Real & System Identification
+
+A major hurdle in this project was the "Reality Gap." Optimally generated trajectories from our simulation failed in the real world due to unmodeled hardware latencies.
+
+- **Latency Characterization:** I led the investigation to isolate the source of this mismatch. By analyzing flight logs, I characterized the end-to-end system delay—tracing the pipeline from the high-level command $\rightarrow$ wireless messaging $\rightarrow$ MoCap data fusion $\rightarrow$ motor spin-up response.
+- **Performance Optimization:** Identifying this delay allowed us to tune the simulation parameters to match the physical plant, significantly improving the success rate of the experimental drops.
+
+### 3. Experimental Validation
+
+I served as the lead flight test engineer, responsible for the practical implementation of the control laws on hardware.
+
+- **Cascaded PID Tuning:** I performed on-hardware tuning of the cascaded attitude and position loops to handle the aggressive disturbances caused by impact.
+- **Data Collection:** Conducted rigorous bounce tests to validate the contour of recoverable flights, resulting in the data used for our [published paper](https://doi.org/10.1109/ICRA48891.2023.10161462).
+
+{/* Image Gallery */}
+
+<div className="-mx-2 flex flex-wrap overflow-hidden xl:-mx-2">
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    <img
+      src="/static/images/pogo-impulse.png"
+      alt="Force simplification through contact vs collision"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <p className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 1: Force simplification through contact vs collision
+    </p>
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    <img
+      src="/static/images/pogo-switching-ctrl.png"
+      alt="Cascaded PID switching controller architecture"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <p className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 2: Cascaded PID switching controller architecture
+    </p>
+  </div>
+</div>

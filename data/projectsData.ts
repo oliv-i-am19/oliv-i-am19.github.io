@@ -15,7 +15,7 @@ const projectsData: Project[] = [
   {
     title: 'A2Sys/Haptix Lab Pogo Drone',
     description: `My research experience developing intentional collision controller for UAS-environment interaction`,
-    imgSrc: '/static/images/time-machine.jpg',
+    imgSrc: '/static/images/pogo.jpg',
     href: '/blog/pogo-drone',
   },
   {
