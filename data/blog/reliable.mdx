@@ -1,21 +1,79 @@
 ---
 title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+date: '2025-08-09'
+tags: ['Internship', 'GNC', 'Robotics', 'C++']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Engineered autonomous hold trajectory generation logic and developed high-fidelity electromechanical actuator models for simulation.
 ---
 
-## Project Overview
+## Autonomous Hold Trajectory Generation
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+Flight hold patterns are safety-critical maneuvers used for traffic management. The system required a robust, automated way to generate these trajectories that adhered strictly to FAA geometric standards while handling dynamic entry conditions.
 
-- Skill 1
-- Skill 2
+### My Contribution
 
-## Gallery
+I architected the end-to-end trajectory generation logic within the guidance stack. **By leveraging existing geometric primitives and data structures, I ensured the new feature was modular, consistent with the legacy codebase, and minimized code duplication.**
 
-![Project Screenshot](/static/images/your-image-here.jpg)
+- **Geometric Algorithm Design:** Translated complex FAA operational constraints into computational geometry algorithms to dynamically calculate hold entry vectors and racetrack paths.
+- **Safety-Critical Logic:** Implemented a **finite state machine (FSM)** to govern the hold lifecycle (Entry, Orbit, Exit). This ensured deterministic transitions and safely handled edge cases—such as altitude constraints and speed envelopes—preventing undefined behavior.
+- **Verification & Reliability:** Delivered the feature with a comprehensive suite of **C++ unit and integration tests**. I integrated these into the nightly regression pipeline to guarantee trajectory continuity and stability.
+
+{/* Image Gallery: Hold Trajectory */}
+
+<div className="-mx-2 flex flex-wrap overflow-hidden xl:-mx-2">
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    <img
+      src="/static/images/hold-flow-chart.png"
+      alt="Flow chart for hold trajectory generation procedure"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <p className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 1: Flow chart for hold trajectory generation procedure
+    </p>
+  </div>
+  <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
+    <img
+      src="/static/images/hold-geometries.png"
+      alt="Visualization of the generated racetrack hold geometry"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <p className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 2: Visualization of the generated racetrack hold entry geometry
+    </p>
+  </div>
+</div>
+
+---
+
+## High-Fidelity Peripheral Systems Modeling
+
+### The Challenge
+
+To validate complex control laws in simulation, we needed higher-fidelity models of the aircraft's electromechanical actuators. Simplified linear models were insufficient for capturing real-world hardware behaviors like friction and compliance.
+
+### My Contribution
+
+I developed high-fidelity **physics models in C++** for the braking and control surface actuation systems.
+
+- **First-Principles Modeling:** Derived equations of motion for the electromechanical systems, explicitly modeling **motor inertia, viscous friction, and back-EMF**.
+- **Complex Dynamics:** Modeled **gear compliance** as a mechanical damping and stiffness term, enabling the simulation to capture realistic lag and resonance effects in the geartrain.
+- **Coupled System Architecture:** Designed the model to couple mechanically with the aircraft's control surfaces, calculating the torque required to reject external aerodynamic loads.
+- **Control Validation:** Implemented **PID controllers** to close the loop on the actuator models. I validated the system dynamics using step-input response analysis, tuning parameters to match the rise time, overshoot, and settling time of the physical hardware.
+
+{/* Single Centered Image */}
+
+<div className="my-8 flex justify-center">
+  <div className="w-full max-w-4xl">
+    <img
+      src="/static/images/motor-dynamics.jpg"
+      alt="Block diagram of the electromechanical motor dynamics"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <p className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 3: High-fidelity electromechanical motor dynamics block diagram.
+    </p>
+  </div>
+</div>
