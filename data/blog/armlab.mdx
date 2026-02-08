@@ -1,21 +1,111 @@
 ---
-title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+title: '5DOF Robotic Manipulation: Perception & Kinematics'
+date: '2025-12-10'
+tags: ['Robotics', 'ROS2', 'OpenCV', 'Kinematics', 'Computer Vision']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Engineered a full-stack pick-and-place pipeline for a 5DOF arm. Implemented analytical Inverse Kinematics (IK), Product of Exponentials (PoE) Forward Kinematics, and computer vision for object pose estimation.
 ---
 
 ## Project Overview
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+Robotic manipulation requires tight integration between the "eyes" (perception) and the "hand" (actuation). The goal of this project was to program a 5-Degree-of-Freedom (5DOF) arm to autonomously identify, sort, and stack colored blocks of varying sizes in a messy workspace.
 
-- Skill 1
-- Skill 2
+### The Solution
 
-## Gallery
+I developed a modular **ROS2** architecture that links computer vision with kinematic control.
 
-![Project Screenshot](/static/images/ocean.jpg)
+- **Perception:** A RealSense depth camera identifies block poses.
+- **Transformation:** Coordinates are transformed from the camera frame to the robot's base frame.
+- **Action:** A custom kinematic solver calculates the precise joint angles needed to grasp and stack the objects.
+
+---
+
+## Technical Contributions
+
+### 1. Computer Vision & Frame Transformations
+
+I leveraged **OpenCV** to build a robust object detection pipeline capable of handling workspace noise.
+
+- **Camera Calibration:** Utilized intrinsic and extrinsic calibration matrices to rectify raw images and normalize the workspace.
+- **Pose Estimation:** Implemented HSV color thresholding and depth segmentation to isolate blocks. I calculated the centroids and principal axes (orientation) of the blocks in the image plane, then projected these 2D pixels into 3D world coordinates ($R_{world}^T$) using the extrinsic matrix.
+
+### 2. Analytical Kinematics (Math & Physics)
+
+I derived the arm's motion models from first principles to ensure deterministic performance.
+
+- **Forward Kinematics (Product of Exponentials):**
+  I modeled the arm utilizing the **Product of Exponentials (PoE)** formula, a modern alternative to Denavit-Hartenberg parameters.
+  $$T(\theta) = e^{[\mathcal{S}_1]\theta_1} e^{[\mathcal{S}_2]\theta_2} ... e^{[\mathcal{S}_n]\theta_n} M$$
+  By identifying the screw axes ($\mathcal{S}$) for each joint and the home configuration matrix ($M$), I could compute the end-effector pose for any set of joint angles.
+
+- **Inverse Kinematics (Geometric Decoupling):**
+  To solve the "reach" problem (given a target XYZ, find the joint angles), I derived a closed-form analytical solution.
+  - **Decoupling:** I simplified the 5DOF chain by treating it as a **3DOF positional sub-arm** (Base, Shoulder, Elbow) and a **2DOF orientation wrist**.
+  - **Singularity Handling:** The solver includes logic to distinguish between and validly select "Elbow Up" vs. "Elbow Down" configurations, ensuring the arm chooses the path that avoids joint limits and self-collision.
+
+{/* Dual Video Gallery - Thumbnail Links */}
+
+<div className="flex flex-wrap -mx-2 my-8">
+
+{/* Video 1: Click and Place */}
+
+<div className="mb-4 w-full px-2 md:mb-0 md:w-1/2">
+  <a
+    href="https://www.youtube.com/watch?v=F5K3NNOxsb0"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative block w-full overflow-hidden rounded-lg shadow-lg"
+  >
+    {/* Thumbnail */}
+    <img
+      src="https://img.youtube.com/vi/F5K3NNOxsb0/maxresdefault.jpg"
+      alt="Click to watch Click and Place Demo"
+      className="w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+    />
+    {/* Play Button Overlay */}
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="rounded-full bg-white/90 p-3 shadow-xl transition-transform duration-300 group-hover:scale-110">
+        <svg className="ml-1 h-8 w-8 fill-current text-red-600" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+  </a>
+  <div className="mt-2 text-center text-sm text-gray-500 italic">
+    Demo 1: Click to Grab and Place (Click to watch)
+  </div>
+</div>
+
+{/* Video 2: Block Identification */}
+
+<div className="w-full px-2 md:w-1/2">
+  <a
+    href="https://www.youtube.com/watch?v=_GqNP0Kj-AU"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative block w-full overflow-hidden rounded-lg shadow-lg"
+  >
+    {/* Thumbnail */}
+    <img
+      src="https://img.youtube.com/vi/_GqNP0Kj-AU/maxresdefault.jpg"
+      alt="Click to watch Block Identification Demo"
+      className="w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+    />
+    {/* Play Button Overlay */}
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="rounded-full bg-white/90 p-3 shadow-xl transition-transform duration-300 group-hover:scale-110">
+        <svg className="ml-1 h-8 w-8 fill-current text-red-600" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+  </a>
+  <div className="mt-2 text-center text-sm text-gray-500 italic">
+    Demo 2: Block Color Identification (Click to watch)
+  </div>
+</div>
+
+</div>

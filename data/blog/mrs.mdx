@@ -1,21 +1,84 @@
 ---
-title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+title: 'Heterogeneous Multi-Agent Coordination'
+date: '2024-12-18'
+tags: ['Multi-Agent Systems', 'Python', 'Distributed Algorithms', 'Path Planning', 'A*']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Designed a decentralized control architecture for a heterogeneous swarm of UAVs. Implemented distributed task allocation and information-theoretic exploration to solve a dynamic forest fire simulation.
 ---
 
 ## Project Overview
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+Most multi-agent systems rely on homogeneous teams (identical robots). Real-world disaster response, however, requires **heterogeneous teams**—specialized agents working in concert. I sought to explore the complex coordination problem of deploying distinct robot classes to a dynamic, expanding hazard without a central controller.
 
-- Skill 1
-- Skill 2
+### The Solution
 
-## Gallery
+I developed a decentralized simulation engine in **Python** modeling a forest fire response scenario. The system coordinates two distinct agent classes:
 
-![Project Screenshot](/static/images/ocean.jpg)
+1.  **Surveyors (Fixed-Wing):** High-speed, high-endurance scouts using information-gain algorithms to map the environment as fires develop.
+2.  **Firefighters (Quadrotors):** Agile, hovering agents that perform the physical extinguishing tasks based on Surveyor data.
+
+---
+
+## Technical Contributions
+
+### 1. Dynamic Environment Simulation
+
+I engineered a grid-based probabilistic cellular automata simulation to model wildfire spread.
+
+- **Stochastic Dynamics:** The environment is dynamic and non-deterministic; fire propagation probabilities increase based on adjacency to burning cells and simulated wind vectors.
+- **Partial Observability:** Agents do not possess a global map. They must build a local world model through sensor readings and share updates via local communication links.
+
+### 2. Information-Theoretic Exploration (Surveyors)
+
+The Surveyor agents utilize an **entropy-reduction strategy** to maximize map coverage efficiency.
+
+- **A\* Path Planning:** Implemented A\* search to navigate the grid while avoiding mapped hazards.
+- **Next-Best-View (NBV):** The agents calculate a utility function based on "information gain" (unvisited cells vs. visited cells) to determine optimal flight paths, prioritizing unknown regions of the map.
+
+### 3. Distributed Task Allocation (Firefighters)
+
+The core innovation is the **decentralized command structure**. There is no central server; decision-making is distributed across the swarm.
+
+- **Local Consensus:** Agents exchange map data and task states only with neighbors within a limited communication radius, simulating real-world RF constraints.
+- **Distributed mTSP:** I modeled the fire assignment as a dynamic **Multiple Traveling Salesperson Problem (mTSP)**. Firefighters execute a distributed auction-based protocol to assign themselves to the nearest high-priority fires, ensuring optimal coverage without redundant assignments.
+
+{/* ROB 498 Presentation - Thumbnail Link */}
+
+<div className="my-8 w-full">
+  <a 
+    href="https://www.youtube.com/watch?v=f0zRBmEPf1A" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="block relative group w-full rounded-lg overflow-hidden shadow-lg"
+  >
+    {/* 1. The Thumbnail Image (Auto-fetched from YouTube) */}
+    <img
+      src="https://img.youtube.com/vi/f0zRBmEPf1A/maxresdefault.jpg"
+      alt="Click to watch ROB 498 project presentation"
+      className="w-full object-cover group-hover:opacity-90 transition-opacity duration-300"
+    />
+
+    {/* 2. The Play Button Overlay */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="bg-white/90 rounded-full p-4 shadow-xl group-hover:scale-110 transition-transform duration-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8 text-red-600 fill-current ml-1"
+          viewBox="0 0 24 24"
+        >
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+
+  </a>
+
+{/* 3. The Caption */}
+
+  <div className="mt-2 text-center text-sm text-gray-500 italic">
+    ROB 498 project presentation (Click to watch)
+  </div>
+</div>

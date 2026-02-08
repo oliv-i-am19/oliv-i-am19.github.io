@@ -1,21 +1,111 @@
 ---
-title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+title: 'Autonomous SLAM & Frontier Exploration'
+date: '2024-11-25'
+tags: ['SLAM', 'ROS2', 'Particle Filter', 'LiDAR', 'Path Planning', 'A*']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Implemented a full-stack navigation pipeline for a differential drive robot. Features include a custom Particle Filter (MCL) for localization, occupancy grid mapping, and frontier-based autonomous exploration.
 ---
 
 ## Project Overview
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+To navigate an unknown environment, a robot must solve the problem of **SLAM (Simultaneous Localization and Mapping)**: it needs a map to know where it is, but it needs to know where it is to build a map. The goal of this project was to implement these algorithms from scratch on a two-wheeled differential drive robot to achieve fully autonomous maze exploration.
 
-- Skill 1
-- Skill 2
+### The Solution
 
-## Gallery
+My team and I developed a robust navigation stack that fuses noisy sensor data to estimate pose and make intelligent decisions.
 
-![Project Screenshot](/static/images/ocean.jpg)
+- **Sensing:** LiDAR and Wheel Encoders.
+- **Estimation:** Particle Filter (Monte Carlo Localization).
+- **Decision Making:** Frontier-based exploration with A\* pathfinding.
+
+---
+
+## Technical Contributions
+
+### 1. Probabilistic Localization (Particle Filter)
+
+I implemented a **Monte Carlo Localization (MCL)** algorithm to robustly track the robot's pose $(x, y, \theta)$ despite significant sensor noise.
+
+- **Motion Model:** The filter propagates a "cloud" of particles based on odometry data. To account for wheel slip and drift, I injected Gaussian noise into the motion update step, effectively modeling the uncertainty of the robot's movement.
+- **Sensor Model:** As LiDAR scans are received, each particle is assigned a **weight** based on how well its hypothetical view of the map matches the actual sensor reading.
+- **Resampling:** High-weight particles are duplicated and low-weight particles are culled. This allows the filter to converge from a global uncertainty to a tight cluster around the true position.
+
+### 2. Occupancy Grid Mapping
+
+We moved beyond simple obstacle avoidance to build a persistent **Occupancy Grid Map**.
+
+- The environment is discretized into a grid where each cell holds a probability value $P(occupied)$.
+- Using **Bresenham’s Line Algorithm** and log-odds updates, we fused incoming LiDAR scans into the grid—marking cells as "Free," "Occupied," or "Unknown." This probabilistic approach allows the map to filter out transient noise (like a person walking by) and retain static features (walls).
+
+### 3. Frontier-Based Autonomous Exploration
+
+To enable the robot to explore without human intervention, we implemented a **Frontier-Based Exploration** strategy.
+
+- **Frontier Detection:** The algorithm analyzes the occupancy grid to find "Frontiers"—the boundary lines between "Free Space" and "Unknown Space."
+- **Cost-Utility Analysis:** We cluster these frontier cells and calculate a utility score for each cluster.
+- **A\* Path Planning:** The robot uses **A\*** to plan the shortest path to the most promising frontier. We augmented the cost function to penalize paths near obstacles (inflation radius) to ensure safety during high-speed transit.
+
+{/* Dual YouTube Shorts Gallery */}
+
+<div className="flex flex-wrap -mx-2 my-8">
+
+{/* Short 1 */}
+
+<div className="w-1/2 px-2">
+  <a
+    href="https://www.youtube.com/shorts/pizQHH19WVg"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative block aspect-[9/16] w-full overflow-hidden rounded-lg bg-black shadow-lg"
+  >
+    {/* Thumbnail - 'object-contain' keeps the vertical shape correct */}
+    <img
+      src="https://img.youtube.com/vi/pizQHH19WVg/maxresdefault.jpg"
+      alt="Watch Short 1"
+      className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+    />
+
+    {/* Play Button */}
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="rounded-full bg-white/90 p-3 shadow-xl transition-transform duration-300 group-hover:scale-110">
+        <svg className="ml-1 h-6 w-6 fill-current text-red-600" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+
+  </a>
+  <div className="mt-2 text-center text-sm text-gray-500 italic">Demo 1: Autonomous SLAM and Navigation (Click to watch)</div>
+</div>
+
+{/* Short 2 */}
+
+<div className="w-1/2 px-2">
+  <a
+    href="https://www.youtube.com/shorts/bzMZ4MRSxvg"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative block aspect-[9/16] w-full overflow-hidden rounded-lg bg-black shadow-lg"
+  >
+    <img
+      src="https://img.youtube.com/vi/bzMZ4MRSxvg/maxresdefault.jpg"
+      alt="Watch Short 2"
+      className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+    />
+
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="rounded-full bg-white/90 p-3 shadow-xl transition-transform duration-300 group-hover:scale-110">
+        <svg className="ml-1 h-6 w-6 fill-current text-red-600" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+
+  </a>
+  <div className="mt-2 text-center text-sm text-gray-500 italic">Demo 2: Real-time visualization of the Particle Filter converging (Click to watch)</div>
+</div>
+
+</div>

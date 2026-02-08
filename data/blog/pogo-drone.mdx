@@ -17,19 +17,43 @@ Conventional UAS are designed to avoid contact at all costs. Physical interactio
 
 Inspired by Marc Raibert’s hopping robots, we developed an underactuated hexacopter equipped with a passive compliance leg. The goal was to engineer a controller capable of utilizing **intentional, targeted collisions** to maintain stability, effectively turning a crash into a controlled bounce.
 
-{/* YouTube Video Embed */}
+{/* YouTube Video Link - CSP Safe Version */}
 
-<div className="my-8 aspect-video w-full">
-  <iframe
-    className="h-full w-full rounded-lg shadow-lg"
-    src="https://youtu.be/OWXFGKdiCx8"
-    title="Pogo Drone Flight Tests"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowFullScreen
-  ></iframe>
-  <p className="mt-2 text-center text-sm text-gray-500 italic">
-    Demonstration of the switching controller handling collision and recovery.
-  </p>
+<div className="my-8 w-full">
+  <a 
+    href="https://www.youtube.com/watch?v=OWXFGKdiCx8" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="block relative group w-full rounded-lg overflow-hidden shadow-lg"
+  >
+    {/* 1. The Thumbnail Image (Auto-fetched from YouTube) */}
+    <img
+      src="https://img.youtube.com/vi/OWXFGKdiCx8/maxresdefault.jpg"
+      alt="Click to watch Pogo Drone flight test"
+      className="w-full object-cover group-hover:opacity-90 transition-opacity duration-300"
+    />
+
+    {/* 2. The Play Button Overlay */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="bg-white/90 rounded-full p-4 shadow-xl group-hover:scale-110 transition-transform duration-300">
+        {/* SVG Play Icon */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8 text-red-600 fill-current ml-1"
+          viewBox="0 0 24 24"
+        >
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+
+  </a>
+
+{/* 3. The Caption */}
+
+  <div className="mt-2 text-center text-sm text-gray-500 italic">
+    Demonstration of the switching controller handling collision and recovery. (Click to watch)
+  </div>
 </div>
 
 ---
@@ -66,9 +90,10 @@ I served as the lead flight test engineer, responsible for the practical impleme
       alt="Force simplification through contact vs collision"
       className="w-full rounded-lg object-cover shadow-md"
     />
-    <p className="mt-2 text-center text-sm text-gray-500 italic">
+    {/* Changed <p> to <div> */}
+    <div className="mt-2 text-center text-sm text-gray-500 italic">
       Figure 1: Force simplification through contact vs collision
-    </p>
+    </div>
   </div>
   <div className="my-1 w-full overflow-hidden px-2 xl:my-1 xl:w-1/2 xl:px-2">
     <img
@@ -76,8 +101,9 @@ I served as the lead flight test engineer, responsible for the practical impleme
       alt="Cascaded PID switching controller architecture"
       className="w-full rounded-lg object-cover shadow-md"
     />
-    <p className="mt-2 text-center text-sm text-gray-500 italic">
+    {/* Changed <p> to <div> */}
+    <div className="mt-2 text-center text-sm text-gray-500 italic">
       Figure 2: Cascaded PID switching controller architecture
-    </p>
+    </div>
   </div>
 </div>
