@@ -21,7 +21,7 @@ const projectsData: Project[] = [
   {
     title: 'Michigan Experimental Rocketry Org (MERO) VTVL Rocket',
     description: ``,
-    imgSrc: '/static/images/time-machine.jpg',
+    imgSrc: '/static/images/earth.jpg',
     href: '/blog/mero',
   },
   {

@@ -1,21 +1,79 @@
 ---
-title: 'Reliable Robotics GNC Intern Projects'
-date: '2025-08-01'
-tags: ['Internship', 'GNC', 'Robotics']
+title: 'VTVL Rocket: GNC & Trajectory Optimization'
+date: '2025-02-01'
+tags: ['GNC', 'Rocketry', 'MPC', 'CasADi', 'Python', 'Simulation']
 draft: false
 summary: >-
-  An in-depth look at my work on guidance, navigation, and control systems during my internship.
+  Lead GNC engineer for a student-led VTVL rocket project. Developing 6DoF simulations, trajectory optimization using CasADi, and Model Predictive Control (MPC) for propulsive landing.
 ---
 
 ## Project Overview
 
-Here you can write the full story of what you did. You can include code snippets, math equations, and more images.
+### The Challenge
 
-## What I Learned
+Vertical Takeoff and Vertical Landing (VTVL) represents the cutting edge of reusable rocketry. I am a founding member of this specialized engineering team to design, build, and fire a bi-propellant rocket engine within a 1-year timeline.
 
-- Skill 1
-- Skill 2
+### The System
 
-## Gallery
+The vehicle utilizes a single gimbaled, throttlable engine for primary thrust vector control (TVC) and ducted fans for roll authority. My role is to architect the **Guidance, Navigation, and Control (GNC)** stack to execute a "hop" profile: lifting off to a designated waypoint and performing a precision propulsive landing.
 
-![Project Screenshot](/static/images/ocean.jpg)
+---
+
+## Technical Contributions
+
+### 1. Trajectory Optimization (CasADi)
+
+To determine the feasible flight envelope, I developed a nonlinear trajectory optimizer using **CasADi**.
+
+- **Constraint Management:** The optimizer accounts for critical hardware constraints, including maximum gimbal angle/rate and the engine's non-linear throttle bucket (50-100% thrust).
+- **Mission Planning:** By iterating on the cost function and constraints, I mapped the vehicle's reachable landing zones based on fuel mass. This analysis directly influenced hardware design decisions, forcing adjustments to our target apogee to match the engine's impulse capabilities.
+
+### 2. Custom 6DoF Physics Engine
+
+I built a custom **3D 6-Degree-of-Freedom (6DoF) simulation environment** in Python to serve as our software testbed.
+
+- **First-Principles Dynamics:** Derived the equations of motion (EOM) for a rigid body from scratch, modeling the rocket initially as a uniform cylinder.
+- **Numerical Integration:** Implemented explicit integration schemes (Forward Euler) to propagate the state vector forward in time.
+- **Validation:** Verified the simulation physics by injecting open-loop step inputs and cross-referencing the response against analytical hand calculations to ensure dynamic consistency.
+
+### 3. Model Predictive Control (MPC)
+
+I am currently developing the real-time control architecture using **Model Predictive Control**.
+
+- **Linearization:** The controller utilizes linearized system dynamics around the operating point to predict future states.
+- **Tracking:** The MPC solves a finite-horizon optimization problem at every timestep to track the offline-generated optimal trajectory while adhering to actuator saturation limits.
+
+### Future Roadmap
+
+The next phase of development focuses on increasing simulation fidelity to support Hardware-in-the-Loop (HIL) testing:
+
+- **Variable Mass Dynamics:** integrating the shift in Center of Mass (CoM) and inertia tensor as fuel is depleted.
+- **Aerodynamics:** Adding drag models and wind disturbance rejection.
+- **Actuator Dynamics:** Modeling the delay and slew rate limits of the gimbal servos.
+
+{/* Image Gallery - Vertically Stacked */}
+
+<div className="my-8 flex flex-wrap overflow-hidden">
+  {/* Image 1 Container - Full width (w-full) with vertical margin (my-4) */}
+  <div className="my-4 w-full overflow-hidden">
+    <img
+      src="/static/images/mero-traj-opt.png"
+      alt="CasADi 2D optimal trajectory visualization"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <div className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 1: Optimal trajectory generation visualized in 2D
+    </div>
+  </div>
+  {/* Image 2 Container - Full width (w-full) with vertical margin (my-4) */}
+  <div className="my-4 w-full overflow-hidden">
+    <img
+      src="/static/images/mero-mpc-hover-test.png"
+      alt="Rocket hover test in simulation using linearized MPC"
+      className="w-full rounded-lg object-cover shadow-md"
+    />
+    <div className="mt-2 text-center text-sm text-gray-500 italic">
+      Figure 2: Rocket hover test in simulation using linearized MPC
+    </div>
+  </div>
+</div>
