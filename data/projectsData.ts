@@ -26,8 +26,8 @@ const projectsData: Project[] = [
   },
   {
     title: 'ROB 599 Legged Robot Control Final Project',
-    description: `Phase-Based Gait and Trajectory Optimization in MuJoCo for Dynamic Legged Locomotion`,
-    imgSrc: '/static/images/time-machine.jpg',
+    description: `Phase-Based Trajectory Optimization for Legged Locomotion`,
+    imgSrc: '/static/images/biped.png',
     href: '/blog/lrc',
   },
   {

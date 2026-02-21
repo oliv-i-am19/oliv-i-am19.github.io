@@ -68,7 +68,7 @@ export default function Home() {
           {/* Download Resume button */}
           <div className="pt-4">
             <a
-              href="/static/resume.pdf"
+              href="/static/OliviaMa_Resume_2025.pdf"
               download="Olivia_Ma_Resume.pdf"
               className="inline-block w-full rounded-lg bg-black px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-gray-800 md:w-auto dark:bg-white dark:text-black dark:hover:bg-gray-200"
             >
