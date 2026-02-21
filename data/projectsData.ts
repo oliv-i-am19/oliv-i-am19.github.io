@@ -48,12 +48,12 @@ const projectsData: Project[] = [
     imgSrc: '/static/images/mbot.png',
     href: '/blog/slam',
   },
-  {
-    title: 'Hardware Projects',
-    description: `A showcase of my projects related to hardware design/fabrication`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/hardware',
-  },
+  // {
+  //   title: 'Hardware Projects',
+  //   description: `A showcase of my projects related to hardware design/fabrication`,
+  //   imgSrc: '/static/images/time-machine.jpg',
+  //   href: '/blog/hardware',
+  // },
 ]
 
 export default projectsData
